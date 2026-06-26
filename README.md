@@ -120,7 +120,7 @@ http-server -p 8080
 1. Open the **Arduino IDE**.
 2. **Add ESP32 Board Support:** Go to **File > Preferences**. In the *Additional Boards Manager URLs* box, paste the following link:
 ```text
-[https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json](https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json)
+[https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json]
 
 ```
 
@@ -157,6 +157,3 @@ http-server -p 8080
 
 The edge device uses an ultra-efficient write-only parallel interface pattern. For detailed wire layouts and the full circuit block diagram showing exactly how the 8-bit bus maps onto the KS0108 display pins, explore the `hardware/schematics/` directory.
 
-```
-
-```
