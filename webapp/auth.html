@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Fridge</title>
+    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Extension for Input Field Icon Alignment */
+        .pass-container {
+            position: relative;
+            width: 100%;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #888;
+            transition: color 0.3s;
+            z-index: 10;
+        }
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+        input[type="password"], input[type="text"] {
+            padding-right: 45px !important; /* Forces layout spacing clear of the absolute eye icon positioning */
+        }
+    </style>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; margin: 0;">
+
+<div class="container" style="max-width: 420px; width: 90%;">
+    <header style="text-align: center; margin-bottom: 20px;">
+        <h1 style="color: var(--secondary); margin-bottom: 5px; font-size: 1.8rem;">Smart Fridge Inventory System</h1>
+    </header>
+
+    <section id="login-box" class="scanner-card" style="padding: 40px 30px;">
+        <h2 style="justify-content: center; margin-bottom: 25px;"><i class="fas fa-lock"></i> Login</h2>
+        
+        <div style="text-align: left;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase;">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="Enter Email" required>
+            
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase;">Password</label>
+            <div class="pass-container">
+                <input type="password" id="loginPass" placeholder="Enter Password" required>
+                <i class="fas fa-eye toggle-password" id="eyeLogin" onclick="togglePassVisibility('loginPass', 'eyeLogin')"></i>
+            </div>
+        </div>
+
+        <button class="btn-scan" id="loginBtn" onclick="handleLogin()" style="width: 100%; margin-top: 20px; justify-content: center; height: 50px;">
+            <span id="loginText">LOGIN TO FRIDGE</span>
+        </button>
+
+        <p style="text-align: center; font-size: 0.9rem; margin-top: 20px; color: #555;">
+            New user ? <a href="javascript:void(0)" onclick="toggleAuth()" style="color: var(--primary); font-weight: 600; text-decoration: none;">Register here</a>
+        </p>
+    </section>
+
+    <section id="register-box" class="scanner-card" style="display: none; padding: 40px 30px; border-color: var(--purple);">
+        <h2 style="justify-content: center; color: var(--purple); margin-bottom: 25px;"><i class="fas fa-user-plus"></i> Register</h2>
+        
+        <div style="text-align: left;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase;">Email Address</label>
+            <input type="email" id="regEmail" placeholder="email@example.com" required>
+
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase;">Username</label>
+            <input type="text" id="regUser" placeholder="Choose Username" required>
+            
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase;">Password</label>
+            <div class="pass-container">
+                <input type="password" id="regPass" placeholder="Create Password" required>
+                <i class="fas fa-eye toggle-password" id="eyeReg" onclick="togglePassVisibility('regPass', 'eyeReg')"></i>
+            </div>
+        </div>
+
+        <button class="btn-scan" id="regBtn" onclick="handleRegister()" style="width: 100%; background: var(--purple); margin-top: 20px; justify-content: center; height: 50px; box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);">
+            <span id="regText">CREATE ACCOUNT</span>
+        </button>
+
+        <p style="text-align: center; font-size: 0.9rem; margin-top: 20px; color: #555;">
+            Already have an account ? <a href="javascript:void(0)" onclick="toggleAuth()" style="color: var(--purple); font-weight: 600; text-decoration: none;">Login here</a>
+        </p>
+    </section>
+    
+    <footer style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
+        &copy; 2026 All Rights Reserved
+    </footer>
+</div>
+
+<script type="module" src="auth.js"></script>
+
+<script>
+    /**
+     * UI TOGGLE: Toggles Visibility Between Login and Register Forms
+     */
+    function toggleAuth() {
+        const l = document.getElementById('login-box');
+        const r = document.getElementById('register-box');
+        if (l.style.display === 'none') {
+            l.style.display = 'block';
+            r.style.display = 'none';
+        } else {
+            l.style.display = 'none';
+            r.style.display = 'block';
+        }
+    }
+
+    /**
+     * UI HELPER: Swaps Input Type Field State for Masked Text Strings
+     */
+    function togglePassVisibility(inputId, iconId) {
+        const passInput = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        
+        if (passInput.type === "password") {
+            passInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    /**
+     * KEYBOARD HOOK: Intercepts Keyboard Return Taps for Seamless Submissions
+     */
+    document.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const loginBox = document.getElementById('login-box');
+            if (loginBox.style.display !== 'none') {
+                if(typeof handleLogin === 'function') handleLogin(); 
+            } else {
+                if(typeof handleRegister === 'function') handleRegister(); 
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

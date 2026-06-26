@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Fridge - Shopping List</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4361ee">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2274/2274757.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2.0">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div style="text-align: left;">
+            <h1 style="color: var(--secondary); margin: 0; font-size: 1.4rem;">Cart Dashboard</h1>
+            <small style="color: #666;">
+                <i class="fas fa-user-circle"></i> <span id="user-display">User</span> | 
+                <i class="fas fa-shopping-basket"></i> Items to Restock
+            </small>
+        </div>
+        <button class="btn-scan" onclick="location.href='index.html'" style="padding: 8px 15px; font-size: 0.85rem; background: var(--secondary);">
+            <i class="fas fa-snowflake"></i> BACK TO FRIDGE
+        </button>
+    </header>
+
+    <div id="notification-area"></div>
+
+    <section class="cart-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+            <h2 style="margin: 0;"><i class="fas fa-cart-arrow-down"></i> My Cart (<span id="cart-count-display">0</span>)</h2>
+            
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px; background: #f8f9fa; padding: 5px 12px; border-radius: 8px; border: 1px solid #ddd;">
+                    <label for="cartSortDropdown" style="font-size: 0.75rem; font-weight: 600; color: #555;">SORT:</label>
+                    <select id="cartSortDropdown" style="padding: 4px; border-radius: 5px; border: none; background: transparent; font-size: 0.8rem; cursor: pointer; outline: none;">
+                        <option value="expiry">📅 Expiry</option>
+                        <option value="name">🔤 Name</option>
+                        <option value="quantity">📊 Qty</option>
+                    </select>
+                </div>
+
+                <button class="btn-scan btn-barcode" onclick="window.print()" style="padding: 8px 15px; font-size: 0.8rem;">
+                    <i class="fas fa-print"></i> PRINT
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Product</th>
+                        <th style="text-align: center;">Qty Needed</th> 
+                        <th style="text-align: center;">Last Expiry</th>
+                        <th style="text-align: center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-table">
+                    </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div id="manualModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit"></i> Restock Details</h3>
+            <p id="modal-msg" style="font-size: 0.9rem; color: #666;">Confirm info before moving to Fridge:</p>
+            
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888;">PRODUCT NAME</label>
+            <input type="text" id="manualName" placeholder="Product name">
+            
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888;">NEW EXPIRY DATE</label>
+            <div style="display: flex; gap: 5px; align-items: center; margin-bottom: 10px;">
+                <input type="text" id="manualDate" placeholder="DD/MM/YYYY" style="flex: 1; margin: 0;">
+                <input type="date" id="hiddenPicker" style="display:none;" onchange="syncPickerToText(this.value)">
+                <button type="button" class="btn-scan" style="padding: 10px 15px; margin:0;" onclick="document.getElementById('hiddenPicker').showPicker()">
+                    <i class="fas fa-calendar-alt"></i>
+                </button>
+            </div>
+
+            <label style="font-size: 0.75rem; font-weight: 700; color: #888;">QUANTITY</label>
+            <input type="number" id="manualQty" value="1" min="1" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+            
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button id="modalConfirmBtn" class="btn-scan" onclick="submitManualEntry()"><i class="fas fa-save"></i> RESTOCK TO FRIDGE</button>
+                <button class="btn-scan btn-manual" onclick="closeManualModal()"><i class="fas fa-times"></i> CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  /**
+   * PWA SERVICE WORKER REGISTRATION 
+   * Caches statutory local assets to ensure network independence during presentations.
+   */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Fail:', err));
+    });
+  }
+</script>
+
+<script type="module" src="db.js"></script>
+<script type="module" src="app.js"></script>
+<script type="module" src="ui.js"></script>
+<script type="module" src="cart_logic.js"></script> 
+
+</body>
+</html>
