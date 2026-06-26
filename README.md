@@ -142,7 +142,7 @@ http-server -p 8080
 #define WIFI_SSID "YOUR_WIFI_HOTSPOT_NAME"
 #define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
 #define DATABASE_SECRET "YOUR_FIREBASE_LEGACY_DATABASE_SECRET"
-#define DATABASE_URL "[https://smartfridgeinventory-7112e-default-rtdb.firebaseio.com](https://smartfridgeinventory-7112e-default-rtdb.firebaseio.com)"
+#define DATABASE_URL "[https://smartfridgeinventory-7112e-default-rtdb.firebaseio.com]"
 
 ```
 
@@ -155,7 +155,7 @@ http-server -p 8080
 
 ## ⚡ Hardware Interfacing Schematics
 
-The edge device uses an ultra-efficient write-only parallel interface pattern. For detailed wire layouts and the full circuit block diagram showing exactly how the 8-bit bus maps onto the KS0108 display pins, explore the [hardware/schematics/](https://www.google.com/search?q=hardware/schematics/) directory.
+The edge device uses an ultra-efficient write-only parallel interface pattern. For detailed wire layouts and the full circuit block diagram showing exactly how the 8-bit bus maps onto the KS0108 display pins, explore the `hardware/schematics/` directory.
 
 ```
 
